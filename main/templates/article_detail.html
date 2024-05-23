@@ -1,0 +1,17 @@
+{% extends 'index.html' %}
+
+{% block styles %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'styles.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="article-container">
+<div class="full-article">
+<img src="{{ article.image.url }}" width="250px">
+{{ article.title }}
+{{ article.body|safe }}
+</div>
+</div>
+{% endblock %}
+

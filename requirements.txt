@@ -1,0 +1,4 @@
+beautifulsoup
+ckeditor
+ckeditor_uploader
+pillow

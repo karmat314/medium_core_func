@@ -8,22 +8,21 @@
     {% if form %}
     {{ form.media }}
 
-    <div class="container container-fluid w-50 p-5">
         {%for field in form%}
             <div class="row p-2">{{ field|as_crispy_field|safe }}</div>
         {%endfor%}
 
-        <div class="row p-2">
-            <ul class="list-inline text-right">
-                <li class="list-inline-item">
-                    <button type="reset" class="btn btn-secondary">Reset</button>
-                    <button type="submit" class="btn btn-Success">Save</button>
-                </li>
-            </ul>
-        </div>
-    </div>
+        <button type="reset" class="btn btn-secondary">Reset</button>
+        <button type="submit" class="btn btn-Success">Save</button>
     {%endif%}
-
 </form>
+
+{% if form.errors %}
+    {% for field in form %}
+        {% for error in field.errors %}
+            <p> {{ error }} </p>
+        {% endfor %}
+    {% endfor %}
+{% endif %}
 
 {% endblock %}

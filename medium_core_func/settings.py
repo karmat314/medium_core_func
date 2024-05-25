@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     "crispy_bootstrap5",
     'ckeditor',
     'ckeditor_uploader',
+    'taggit',
 ]
 
 # CKEditor Settings

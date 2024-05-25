@@ -20,8 +20,11 @@
             <li><a href="{% url 'home' %}"><svg xmlns="http://www.w3.org/2000/svg" viewBox="2 1 16 16" height="48px"><path d="M8,11H9V10H10V9H11V8H12V7H13V4H8ZM7,16H6V15H5V14H6V3H15V15H7ZM14,14V8H13V9H12V10H11V11H10V12H9V14Z"/></svg><p>INKFLUENCE</p></a></li>
             <li>
                 <div class="search-bar">
-                    <span class="mdi mdi-magnify"></span>
-                    <input type="text" placeholder="Search">
+                    <form action="{% url 'searchArticle' %}">
+                        {% csrf_token %}
+                        <input type="search" name="search" placeholder="Search">
+                        <button type="submit" class="mdi mdi-magnify"></button>
+                    </form>
                 </div>
             </li>
             <li><span class="mdi mdi-fountain-pen-tip"></span>
@@ -35,18 +38,14 @@
         <div class="left-window">
             {% block left-window %}
             <div class="topics">
-                <h4>Recommended topics</h4>
+                <h4>Browse by topics</h4>
                 <ul class="topics">
-                    <li><a href="">Gaming</a></li>
-                    <li><a href="">Politics</a></li>
-                    <li><a href="">Culinary</a></li>
-                    <li><a href="">Films and Movies</a></li>
-                    <li><a href="">Dancing</a></li>
-                    <li><a href="">Anime</a></li>
-                    <li><a href="">Literature</a></li>
-                    <li><a href="">Artificial Intelligence</a></li>
+                    {% for article_tag in tags %}
+                        <li>
+                            <a href="{% url 'articlesByTag' %}?tag={{ article_tag }}">{{ article_tag }}</a>
+                        </li>
+                    {% endfor %}
                 </ul>
-                <a href="">See more ...</a>
             </div>
             {% endblock %}
         </div>
@@ -66,7 +65,11 @@
                             </div>
                             <div class="post-footer">
                                 <ul>
-                                    <li>Artificial Intelligence</li>
+                                    <li>
+                                        {% for article_tag in article.tags.all %}
+                                            <a href="{% url 'articlesByTag' %}?tag={{ article_tag }}">{{ article_tag }}</a>
+                                        {% endfor %}
+                                    </li>
                                 </ul>
                                 <p><span class="mdi mdi-bookmark-outline"></span>Save</p>
                             </div>
@@ -86,7 +89,6 @@
     <div><span>INKFLUENCE</span> - a playground for sharing information.</div>
     <div>
         <ul>
-            <li><a href="">About Us</a></li>
             <li><a href="">Share Feedback</a></li>
             <li><a href="">Guides</a></li>
             <li><a href="">Docs</a></li>
@@ -94,5 +96,6 @@
     </div>
     <div>Made by Karma Thapkhey &#169; 2024 WebDev Mini-project </div>
    </footer>
+   <script src="{% static 'script.js' %}">
 </body>
 </html>

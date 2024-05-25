@@ -47,14 +47,18 @@ body {
     border-radius: 15px;
     background-color: #F2F2F2;
     height: 40px;
-    display: flex;
-    align-items: center;
     padding: 5px;
 }
-.search-bar span {
-    font-size: xx-large;
+.search-bar form {
+    display: flex;
+    align-items: center;
+    max-height: 30px;
 }
-.search-bar input[type="text"] {
+.search-bar form button {
+    font-size: xx-large;
+    border: none;
+}
+.search-bar input[type="search"] {
     font-size: 16px;
     background-color: #F2F2F2;
     border: none;
@@ -105,6 +109,7 @@ body {
 }
 .topics a {
     text-decoration: none;
+    color: black;
 }
 
 
@@ -136,10 +141,12 @@ body {
 }
 .post-container {
     display: flex;
+    justify-content: space-between;
 }
 .post-content {
     display: flex;
     flex-direction: column;
+    flex: 1;
 }
 .post-main-content {
     flex: 1;

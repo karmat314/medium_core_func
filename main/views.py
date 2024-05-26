@@ -1,8 +1,8 @@
 from django import forms
 from django.http import HttpResponse
-from django.shortcuts import redirect, render
-from .forms import ArticleForm
-from .models import Article
+from django.shortcuts import get_object_or_404, redirect, render
+from .forms import ArticleForm, CommentForm
+from .models import Article, Comment
 from django.db.models import Q 
 from taggit.models import Tag
 # Create your views here.
@@ -27,8 +27,25 @@ def writepost(request):
 
 def articleDetail(request, id):
     article = Article.objects.get(id = id)
+    comments = Comment.objects.filter(article = article)
+    form = CommentForm()
     tags = Tag.objects.all()
-    return render(request, 'article_detail.html', {'article':article, 'tags':tags})
+    if request.method == 'POST':
+        # get the article by article_id
+        # A comment form
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            # Create a Comment object before saving it to the database
+            comment = form.save(commit=False)
+            # Assign the article to the comment
+            comment.article = article
+            # Save the comment to the database
+            comment.save()
+        else:
+            form = CommentForm()
+    comments = Comment.objects.filter(article = article)
+    
+    return render(request, 'article_detail.html', {'article':article, 'form':form, 'tags':tags, 'comments':comments})
 
 def searchArticle(request):
      # Query all posts
@@ -51,4 +68,25 @@ def articlesByTag(request):
     else:
         articles = Article.objects.all()
         return render(request, 'index.html', {'articles': articles, 'tags':tags})
+    
+""" def commentOnArticle(request, article_id):
+    if request.method == 'POST':
+        # get the article by article_id
+        article = get_object_or_404(Article, id = article_id)
+        comment = None
+        comments = None
+        # A comment form
+        form = CommentForm(data=request.POST)
+        if form.is_valid():
+            # Create a Comment object before saving it to the database
+            comment = form.save(commit=False)
+            # Assign the article to the comment
+            comment.article = article
+            # Save the comment to the database
+            comment.save()
+            comments = Comment.objects.filter(article = article)
+        else:
+            comments = Comment.objects.filter(article = article)
+            form = CommentForm()
+    return render(request, 'article_detail.html', {'article': article, 'form': form, 'comments': comments}) """
     

@@ -13,5 +13,27 @@
 {{ article.body|safe }}
 </div>
 </div>
+
+
+<div>
+    <form method="post">
+    {% csrf_token %}
+    {% if form %}
+        {% for field in form %}
+            <p>{{ field }}</p>
+        {% endfor %}
+    {% endif %}
+    <button type="submit">Comment</button>
+    </form>
+</div>
+<div>
+    {% if comments %}
+    <ul>
+        {% for comment in comments %}
+            <li>{{ comment.username }}: {{ comment.body }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+</div>
 {% endblock %}
 

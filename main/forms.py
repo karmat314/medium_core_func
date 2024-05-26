@@ -1,5 +1,5 @@
 from django.forms import ModelForm
-from main.models import Article
+from main.models import Article, Comment
 from django import forms
 from django.utils.translation import gettext as _
 from taggit.utils import edit_string_for_tags, parse_tags
@@ -19,7 +19,21 @@ class ArticleForm(ModelForm):
         widgets = {
             'tags': forms.Select(choices=categories)
         }
+        
+class CommentForm(ModelForm):
+    class Meta:
+        model = Comment
+        fields = ['username', 'body']
          
+        
+        
+        
+        
+        
+        
+        
+        
+        
         
 
 

@@ -30,7 +30,15 @@
             <li><span class="mdi mdi-fountain-pen-tip"></span>
                 <a href="{% url 'write' %}">Write</a>
             </li>
-            <li>Login</li>
+            <li>
+                <a href="{% url 'logout' %}">Log out</a>
+            </li>
+            <li>
+                <a href="{% url 'settings' %}">Settings</a>
+            </li>
+            <li id="profileimg">
+               <a href="{% url 'settings' %}"><img src="{{ user_profile.profileimg.url }}"></a>
+            </li>
         </ul>
     </header>
     <!-- everything below the header except the header including the sidemenu and the main content such the posts -->
@@ -71,6 +79,7 @@
                                         {% endfor %}
                                     </li>
                                 </ul>
+                                <p><span class="mdi mdi-hand-clap"></span>Clap</p>
                                 <p><span class="mdi mdi-bookmark-outline"></span>Save</p>
                             </div>
                         </div>

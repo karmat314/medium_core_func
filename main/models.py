@@ -1,16 +1,30 @@
 from django.db import models
 from ckeditor_uploader.fields import RichTextUploadingField
 from taggit.managers import TaggableManager
+from django.contrib.auth import get_user_model
+
+User  = get_user_model()
 
 # Create your models here.
+class Profile(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    id_user = models.IntegerField()
+    profileimg = models.ImageField(upload_to='images/', default='default-user-pic.webp')
+    
+    def __str__(self):
+        return self.user.username
+
+
 
 class Article(models.Model):
+    user = models.CharField(max_length=100)
     title = models.CharField(max_length=300)
     body = RichTextUploadingField()
     image = models.ImageField(upload_to="images/", default=None) 
     created_on = models.DateTimeField(auto_now_add=True)
     tags = TaggableManager(help_text="Select tag")
-   
+    no_of_claps = models.IntegerField(default=0)
+    
     def __str__(self):
        return self.title
 

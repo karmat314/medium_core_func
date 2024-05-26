@@ -1,0 +1,14 @@
+<div>
+    {% for message in messages %}
+        <p>{{ message }}</p>
+    {% endfor %}
+</div>
+<p>Account settings for {{ user.username }}</p>
+<form action="" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <img src="{{ user_profile.profileimg.url }}" width="100px">
+    <input type="file" name="image">
+    <button type="submit">Save</button>
+</form>
+
+<a href="{% url 'home' %}">Home</a>

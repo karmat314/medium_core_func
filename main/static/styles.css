@@ -46,7 +46,7 @@ body {
 .search-bar {
     border-radius: 15px;
     background-color: #F2F2F2;
-    height: 40px;
+    max-height: 40px;
     padding: 5px;
 }
 .search-bar form {
@@ -70,6 +70,16 @@ body {
     display: flex;
     align-items: center;
 }
+
+#profileimg {
+    width: 50px;
+}
+#profileimg img {
+    max-width:40px;
+    max-height: 40px;
+    border-radius: 50%;
+}
+
 
 
 

@@ -1,13 +1,14 @@
-from django import forms
-from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse
 from .forms import ArticleForm, CommentForm
-from .models import Article, Comment, Profile
+from .models import Article, Comment, Profile, LikeArticle
 from django.db.models import Q 
 from taggit.models import Tag
 from django.contrib.auth.models import User, auth
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate, login
+
 # Create your views here.
 def landing_page(request):
     return render(request, 'landing.html')
@@ -22,23 +23,27 @@ def index(request):
 
 def signup(request):
     if request.method == 'POST':
-        username = request.POST['username']
-        email = request.POST['email']
-        password1 = request.POST['password1']
-        password2 = request.POST['password2']
+        username = request.POST.get('username')
+        email = request.POST.get('email')
+        password1 = request.POST.get('password1')
+        password2 = request.POST.get('password2')
+        
+        # Check if any field is empty
+        if not (username and email and password1 and password2):
+            messages.error(request, 'All fields are required.')
+            return redirect('signup')
         
         if password1 == password2:
-            if User.objects.filter(email = email).exists():
-                messages.info(request, 'Email already sign up')
+            if User.objects.filter(email=email).exists():
+                messages.error(request, 'Email is already in use.')
                 return redirect('signup')
-            elif User.objects.filter(username = username).exists():
-                messages.info(request, 'Username taken')
+            elif User.objects.filter(username=username).exists():
+                messages.error(request, 'Username is already taken.')
                 return redirect('signup')
             else:
                 user = User.objects.create_user(username=username, email=email, password=password1)
                 user.save()
                 
-                #redirect user to profile settings page
                 user_login = auth.authenticate(username = username, password = password1)
                 auth.login(request, user_login)
                 
@@ -46,12 +51,15 @@ def signup(request):
                 user_model = User.objects.get(username= username)
                 new_profile = Profile.objects.create(user = user_model, id_user = user_model.id)
                 new_profile.save()
-                return redirect('home')
                 
+                return redirect('home')
         else:
-            messages.info(request, 'Passwords do not match')
-            return redirect('signup')
-        
+            # If passwords don't match, clear the password fields only
+            messages.error(request, 'Passwords do not match.')
+            # Pass the valid form data back to the signup template
+            return render(request, 'signup.html', {'username': username, 'email': email})
+    
+    # If the request is not POST or if there are any errors, render the signup page with error messages
     return render(request, 'signup.html')
 
 
@@ -99,20 +107,20 @@ def writepost(request):
     if request.method == 'POST':
         form = ArticleForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save(commit=False)
-            form.user = request.user
-            form.save(commit=True)
-            return redirect('home')
-        return render(request, 'writepost.html', {'form': form, 'tags':tags})
-    
+            article = form.save(commit=False)
+            article.user = request.user  # Set the user before saving
+            article.save()
+            form.save_m2m()
+            return redirect('home')  # Redirect to a success page
     else:
-        form = ArticleForm()
+        form = ArticleForm(initial={'user': request.user})
 
     return render(request, 'writepost.html', {'form': form, 'tags':tags})
 
+@login_required(login_url='login')
 def articleDetail(request, id):
     article = Article.objects.get(id = id)
-    comments = Comment.objects.filter(article = article)
+    comments = article.comments.all()
     form = CommentForm()
     tags = Tag.objects.all()
     if request.method == 'POST':
@@ -120,17 +128,40 @@ def articleDetail(request, id):
         # A comment form
         form = CommentForm(request.POST)
         if form.is_valid():
-            # Create a Comment object before saving it to the database
-            comment = form.save(commit=False)
-            # Assign the article to the comment
-            comment.article = article
-            # Save the comment to the database
-            comment.save()
+            new_comment = form.save(commit=False)
+            new_comment.article = article
+            new_comment.username = request.user.username
+            new_comment.save()
+            return redirect('viewArticle', id=id)
         else:
             form = CommentForm()
     comments = Comment.objects.filter(article = article)
     
     return render(request, 'article_detail.html', {'article':article, 'form':form, 'tags':tags, 'comments':comments})
+
+@login_required(login_url='login')
+def likearticle(request):
+    user = request.user
+    article_id = request.GET.get('article_id')
+    article = get_object_or_404(Article, id=article_id)
+
+    # Check if the user has already liked the article
+    like = LikeArticle.objects.filter(article=article, user=user).first()
+    
+    if like is None:
+        # User hasn't liked the article yet
+        LikeArticle.objects.create(article=article, user=user)
+        article.no_of_claps += 1
+    else:
+        # User has already liked the article
+        like.delete()
+        article.no_of_claps -= 1
+    
+    article.save()
+    
+    # Redirect to the index page with an anchor to the article
+    index_url = reverse('home')
+    return redirect(f'{index_url}#article-{article.id}')
 
 def searchArticle(request):
      # Query all posts
@@ -154,5 +185,20 @@ def articlesByTag(request):
         articles = Article.objects.all()
         return render(request, 'index.html', {'articles': articles, 'tags':tags})
     
+
+def topArticles(request):
+    user_object = User.objects.get(username = request.user.username)
+    user_profile = Profile.objects.get(user = user_object)
+    tags = Tag.objects.all()
+    articles = Article.objects.order_by('-no_of_claps')
+    return render(request, "index.html", {"articles": articles, 'tags':tags, 'user_profile':user_profile})
+
+
+def newArticles(request):
+    user_object = User.objects.get(username = request.user.username)
+    user_profile = Profile.objects.get(user = user_object)
+    tags = Tag.objects.all()
+    articles = Article.objects.order_by('-created_on')
+    return render(request, "index.html", {"articles": articles, 'tags':tags, 'user_profile':user_profile})
 
     

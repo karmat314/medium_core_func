@@ -1,14 +1,21 @@
-<div>
+{% block styles %}
+{% load static %}
+    <link rel="stylesheet" href="{% static 'settings_styles.css' %}">
+{% endblock %}
+<div id="account-settings-container">
     {% for message in messages %}
-        <p>{{ message }}</p>
+        <p class="message">{{ message }}</p>
     {% endfor %}
+    <p class="account-settings-title">Account settings for {{ user.username }}</p>
+    <form action="" method="POST" enctype="multipart/form-data" class="account-settings-form">
+        {% csrf_token %}
+        <div class="profile-image-section">
+            <img src="{{ user_profile.profileimg.url }}" width="100px" class="profile-image">
+        </div>
+        <div class="file-upload-section">
+            <input type="file" name="image" class="file-upload-input">
+        </div>
+        <button type="submit" class="save-button">Save</button>
+    </form>
+    <a href="{% url 'home' %}" class="home-link">Home</a>
 </div>
-<p>Account settings for {{ user.username }}</p>
-<form action="" method="POST" enctype="multipart/form-data">
-    {% csrf_token %}
-    <img src="{{ user_profile.profileimg.url }}" width="100px">
-    <input type="file" name="image">
-    <button type="submit">Save</button>
-</form>
-
-<a href="{% url 'home' %}">Home</a>

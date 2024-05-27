@@ -16,15 +16,18 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
-
-from medium_core_func import settings
+from django.conf import settings
 from django.conf.urls.static import static
+
+from django.contrib.auth.decorators import login_required
+from ckeditor_uploader import views as ckeditor_views
+from django.views.decorators.cache import never_cache
 
 urlpatterns = [
     path('', include('main.urls')),
     path('admin/', admin.site.urls),
-    path('ckeditor/', include('ckeditor_uploader.urls')),
+    path('ckeditor/upload/', login_required(ckeditor_views.upload), name='ckeditor_upload'),
+    path('ckeditor/browse/', never_cache(login_required(ckeditor_views.browse)), name='ckeditor_browse'),
 ]
 if settings.DEBUG:
-        urlpatterns += static(settings.MEDIA_URL,
-                              document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

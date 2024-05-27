@@ -12,25 +12,19 @@ tags = Tag.objects.all()
 categories = tuple((tag.name, tag.name) for tag in tags)
 
 class ArticleForm(ModelForm):
-    #tags = TagField()
     class Meta:
         model = Article
-        fields = ["title", 'body', "image", "tags"]
+        fields = ["user","title", 'body', "image", "tags"]
         widgets = {
-            'tags': forms.Select(choices=categories)
+            'tags': forms.Select(choices=categories),
+            'user': forms.HiddenInput()
         }
         
 class CommentForm(ModelForm):
     class Meta:
         model = Comment
-        fields = ['username', 'body']
+        fields = ['body']
          
-        
-        
-        
-        
-        
-        
         
         
         

@@ -7,33 +7,49 @@
 
 {% block content %}
 <div class="article-container">
-<div class="full-article">
-<img src="{{ article.image.url }}" width="250px">
-{{ article.title }}
-{{ article.body|safe }}
-</div>
+    <div class="full-article">
+        <h1 class="article-title">{{ article.title }}</h1>
+        <span>By {{ article.user.username }} <i><small>{{ article.created_on|date:"F j, Y" }}</small></i></span>
+        <div class="article-likes-comments">
+            <a href="{% url 'likearticle' %}?article_id={{ article.id }}"><span class="mdi mdi-hand-clap"></span>{{ article.no_of_claps }}</a>
+            <a href="#comments"><span class="mdi mdi-comment"></span>{{ article.comments.count }}</a>
+        </div>
+        <img src="{{ article.image.url }}" width="250px">
+        {{ article.body|safe }}
+    </div>
 </div>
 
 
-<div>
+<div id="comment-form-container">
     <form method="post">
-    {% csrf_token %}
-    {% if form %}
-        {% for field in form %}
-            <p>{{ field }}</p>
-        {% endfor %}
-    {% endif %}
-    <button type="submit">Comment</button>
+        {% csrf_token %}
+        {% if form %}
+        <div class="comment-form">
+            {% for field in form %}
+            <div class="comment-form-field">
+                {{ field }}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        <button type="submit" class="submit-button">Comment</button>
     </form>
 </div>
-<div>
+
+<div id="comments">
     {% if comments %}
-    <ul>
+    <h3>All comments: </h3>
+    <ul class="comment-list">
         {% for comment in comments %}
-            <li>{{ comment.username }}: {{ comment.body }}</li>
+        <li class="comment-item">
+            <span class="comment-username">By {{ comment.username }} <i><small>{{ comment.created|date:"F j, Y"}}</small></i></span>
+            <p class="comment-body">{{ comment.body }}</p>
+        </li>
         {% endfor %}
     </ul>
+    {% else %}
+    <p class="no-comments">No comments yet. Be the first to comment!</p>
     {% endif %}
 </div>
-{% endblock %}
 
+{% endblock %}

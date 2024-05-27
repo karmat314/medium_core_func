@@ -27,17 +27,23 @@
                     </form>
                 </div>
             </li>
+            <li>
+                <a href="{% url 'topArticles' %}">Top articles</a>
+            </li>
+            <li>
+                <a href="{% url 'newArticles' %}">Newest</a>
+            </li>
             <li><span class="mdi mdi-fountain-pen-tip"></span>
                 <a href="{% url 'write' %}">Write</a>
             </li>
             <li>
                 <a href="{% url 'logout' %}">Log out</a>
             </li>
-            <li>
-                <a href="{% url 'settings' %}">Settings</a>
-            </li>
             <li id="profileimg">
-               <a href="{% url 'settings' %}"><img src="{{ user_profile.profileimg.url }}"></a>
+               <img src="{{ user_profile.profileimg.url }}">
+               <ul class="dropdown">
+                  <li><a href="{% url 'settings' %}">Settings</a></li>
+               </ul>
             </li>
         </ul>
     </header>
@@ -62,14 +68,20 @@
             {% block content %}
             {% load template_filters %}
                 {% for article in articles %}
-                <div class="post">
-                    <a href="{% url 'viewArticle' article.id %}">
-                        <h2>{{ article.title }}</h2>
-                    </a>
+                <div class="post" id="article-{{ article.id }}">
+                    <div class="article-author">
+                        <p>By {{ article.user.username }}</p>
+                        <p><i>{{ article.created_on|date:"F j, Y" }}</i></p>
+                    </div>
                     <div class="post-container">
                         <div class="post-content">
+                            <a href="{% url 'viewArticle' article.id %}">
+                                <h2>{{ article.title }}</h2>
+                            </a>
                             <div class="post-main-content">
-                                {{ article.body|strip_images|truncatewords:50|safe }}
+                                <a href="{% url 'viewArticle' article.id %}">
+                                    {{ article.body|strip_images|truncatewords:50|safe }}
+                                </a>
                             </div>
                             <div class="post-footer">
                                 <ul>
@@ -79,12 +91,21 @@
                                         {% endfor %}
                                     </li>
                                 </ul>
-                                <p><span class="mdi mdi-hand-clap"></span>Clap</p>
+                                <p id="likes">
+                                    <p>
+                                       <a href="{% url 'likearticle' %}?article_id={{ article.id }}"><span class="mdi mdi-hand-clap"></span>{{ article.no_of_claps }}</a>
+                                    </p>
+                                </p>
+                                <p>
+                                    <a href="{% url 'viewArticle' article.id %}#comments"><span class="mdi mdi-comment"></span>{{ article.comments.count }}</a>
+                                </p>
                                 <p><span class="mdi mdi-bookmark-outline"></span>Save</p>
                             </div>
                         </div>
                         <div class="post-thumbnail">
-                            <img src="{{ article.image.url }}" width="250px">
+                            <a href="{% url 'viewArticle' article.id %}">
+                                <img src="{{ article.image.url }}" width="250px">
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -98,7 +119,6 @@
     <div><span>INKFLUENCE</span> - a playground for sharing information.</div>
     <div>
         <ul>
-            <li><a href="">Share Feedback</a></li>
             <li><a href="">Guides</a></li>
             <li><a href="">Docs</a></li>
         </ul>

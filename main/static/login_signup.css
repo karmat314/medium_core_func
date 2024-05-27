@@ -1,0 +1,59 @@
+.container {
+    max-width: 400px;
+    margin: 20px auto;
+    padding: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    font-family: Roboto;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+}
+.container a {
+    text-decoration: none;
+    color: gray;
+    padding: 10px;
+}
+.container a:hover {
+    color: black;
+}
+.container h1 {
+    font-family: Baskerville;
+}
+.container p>a {
+    color: green;
+}
+.message {
+    color: #ff0000;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.form-input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+.submit-button {
+    padding: 10px 20px;
+    color: black;
+    border: none;
+    border-radius: 20px;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.submit-button:hover {
+    background-color: #aeaeae;
+}

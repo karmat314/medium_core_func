@@ -1,3 +1,111 @@
 :root {
     --bg: #F6F4EE;
 }
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+/* Reset and general styles */
+body {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    background-color: var(--bg);
+}
+/* ... */
+
+/* Header and navigation */
+#logo-name {
+    display: flex;
+    align-items: center;
+    font-family: Anton;
+    font-size: xx-large;
+    text-decoration: none;
+    color: #000;
+}
+
+header nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2rem 6rem 2rem 6rem;
+    border-bottom: 1px solid black;
+}
+
+header nav ul {
+    display: flex;
+    list-style: none;
+}
+
+header nav ul li {
+    margin-left: 1rem;
+}
+
+header nav ul li a {
+    text-decoration: none;
+    color: #333;
+}
+
+header nav .cta {
+    background-color: #000;
+    color: #fff;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+}
+
+/* Main content */
+main {
+    text-align: center;
+    padding: 2rem;
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+main h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+main p {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+}
+
+main .cta {
+    background-color: #000;
+    color: #fff;
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    text-decoration: none;
+}
+
+main .illustration {
+    margin-top: 2rem;
+}
+
+/* Footer */
+footer {
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid black;
+    padding: 30px;
+    font-family: Roboto;
+}
+footer div {
+    text-align: center;
+    padding: 10px;
+}
+footer div span{
+    font-family: Anton;
+}
+footer ul {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    column-gap: 30px;
+}
+/* ... */

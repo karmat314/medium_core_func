@@ -62,20 +62,27 @@ def signup(request):
     # If the request is not POST or if there are any errors, render the signup page with error messages
     return render(request, 'signup.html')
 
-
 def login(request):
     if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
+        username = request.POST.get('username')
+        password = request.POST.get('password')
         
-        user = auth.authenticate(username = username, password = password)
+        if not username:
+            messages.info(request, 'Username is required.')
+            return redirect('login')
+        
+        if not password:
+            messages.info(request, 'Password is required.')
+            return redirect('login')
+
+        user = authenticate(username=username, password=password)
         
         if user is not None:
             auth.login(request, user)
             return redirect('home')
         else:
             messages.info(request, 'Invalid credentials')
-            return redirect(request, login)
+            return redirect('login')
             
     return render(request, 'login.html')
 

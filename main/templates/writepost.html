@@ -5,24 +5,30 @@
 {% load crispy_forms_tags %}
 <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
-    {% if form %}
-    {{ form.media }}
-
-        {%for field in form%}
-            <div class="row p-2">{{ field|as_crispy_field|safe }}</div>
-        {%endfor%}
-
-        <button type="reset" class="btn btn-secondary">Reset</button>
-        <button type="submit" class="btn btn-Success">Save</button>
-    {%endif%}
+    <div class="form-group">
+        {% if form %}
+            {{ form.media }}
+            {% for field in form %}
+                <div class="mb-4">
+                    {{ field|as_crispy_field|safe }}
+                </div>
+            {% endfor %}
+            <div class="mb-3">
+                <button type="reset" class="btn btn-secondary">Reset</button>
+                <button type="submit" class="btn btn-success">Save</button>
+            </div>
+        {% endif %}
+    </div>
 </form>
 
 {% if form.errors %}
-    {% for field in form %}
-        {% for error in field.errors %}
-            <p> {{ error }} </p>
+    <div class="alert alert-danger">
+        {% for field in form %}
+            {% for error in field.errors %}
+                <p>{{ error }}</p>
+            {% endfor %}
         {% endfor %}
-    {% endfor %}
+    </div>
 {% endif %}
 
 {% endblock %}

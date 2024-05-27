@@ -1,65 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <style>
-        #signup-container {
-    max-width: 400px;
-    margin: 20px auto;
-    padding: 1rem;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    background-color: #f9f9f9;
-    font-family: Arial, sans-serif;
-    text-align: center;
-}
-
-.message {
-    color: #ff0000;
-    font-size: 0.9rem;
-    margin-bottom: 1rem;
-}
-
-.signup-form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.form-input {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 1rem;
-}
-
-.submit-button {
-    width: 100%;
-    padding: 10px;
-    color: #fff;
-    background-color: #007BFF;
-    border: none;
-    border-radius: 4px;
-    font-size: 1rem;
-    cursor: pointer;
-}
-
-.submit-button:hover {
-    background-color: #0056b3;
-}
-
-    </style>
-</head>
-<body>
-    <div id="signup-container">
+{% extends 'login_signup_base.html' %}
+    {% block style %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'login_signup.css' %}">
+    {% endblock %}
+    
+    {% block content %}
+    <div class="container">
+        <h1>Sign up here</h1>
         {% for message in messages %}
             <p class="message">{{ message }}</p>
         {% endfor %}
-        <form action="" method="POST" class="signup-form">
+        <form action="" method="POST" class="form">
             {% csrf_token %}
             <input type="text" name="username" placeholder="Username" class="form-input" value="{{ username }}">
             <input type="email" name="email" placeholder="Email" class="form-input" value="{{ email }}">
@@ -67,9 +18,10 @@
             <input type="password" name="password2" placeholder="Re-enter password" class="form-input">
             <button type="submit" class="submit-button">Sign up</button>
         </form>
+        <p>Already a member? <a href= " {% url 'login' %} " >Login</a></p>
+        <a href="{% url 'landing_page'%}"><span class="mdi mdi-arrow-left-circle">Back</span></a>
     </div>
-</body>
-</html>
+    {% endblock %}
 
 
 

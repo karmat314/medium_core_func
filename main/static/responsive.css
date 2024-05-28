@@ -1,0 +1,57 @@
+.hidden-menu ul {
+    display: none;
+}
+
+@media only screen and (max-width: 900px) {
+    .left-window {
+        display: none;
+    }
+    .main {
+        padding: 0;
+    }
+    .main-content {
+        padding: 100px 20px 70px 20px;
+    }
+    .post-thumbnail {
+        width: 100px;
+    }
+
+    .navbar {
+        padding: 5px 10px 5px 10px;
+    }
+    .navbar li:nth-child(1) {
+        margin-right: auto;
+    }
+    .navbar li:nth-child(1) a {
+        font-size: x-large;
+    }
+    .navbar li:nth-child(1) a svg {
+        width: 30px;
+    }
+    .navbar li:nth-child(2),
+    .navbar li:nth-child(3),
+    .navbar li:nth-child(4) {
+        display: none;
+    }
+
+    .hidden-menu ul {
+        display: flex;
+        list-style: none;
+        padding: 5px 10px 5px 10px;
+        position: fixed;
+        width: 100%;
+        top: 59px;
+        column-gap: 10px;
+        background-color: white;
+        border-bottom: 1px solid #F2F2F2;
+        z-index: 1000;
+    }
+    .hidden-menu ul li {
+        display: inline-block;
+        align-self: center;
+        font-family: "Roboto";
+        font-size: 16px;
+    }
+}
+
+

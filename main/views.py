@@ -110,6 +110,8 @@ def logout(request):
 
 @login_required(login_url='login')
 def writepost(request):
+    user_object = User.objects.get(username = request.user.username)
+    user_profile = Profile.objects.get(user = user_object)
     tags = Tag.objects.all()
     if request.method == 'POST':
         form = ArticleForm(request.POST, request.FILES)
@@ -122,10 +124,12 @@ def writepost(request):
     else:
         form = ArticleForm(initial={'user': request.user})
 
-    return render(request, 'writepost.html', {'form': form, 'tags':tags})
+    return render(request, 'writepost.html', {'form': form, 'tags':tags, 'user_profile':user_profile})
 
 @login_required(login_url='login')
 def articleDetail(request, id):
+    user_object = User.objects.get(username = request.user.username)
+    user_profile = Profile.objects.get(user = user_object)
     article = Article.objects.get(id = id)
     comments = article.comments.all()
     form = CommentForm()
@@ -144,7 +148,7 @@ def articleDetail(request, id):
             form = CommentForm()
     comments = Comment.objects.filter(article = article)
     
-    return render(request, 'article_detail.html', {'article':article, 'form':form, 'tags':tags, 'comments':comments})
+    return render(request, 'article_detail.html', {'article':article, 'form':form, 'tags':tags, 'comments':comments, 'user_profile':user_profile})
 
 @login_required(login_url='login')
 def likearticle(request):
@@ -171,6 +175,8 @@ def likearticle(request):
     return redirect(f'{index_url}#article-{article.id}')
 
 def searchArticle(request):
+    user_object = User.objects.get(username = request.user.username)
+    user_profile = Profile.objects.get(user = user_object)
      # Query all posts
     tags = Tag.objects.all()
     search_article = request.GET.get('search')
@@ -179,7 +185,7 @@ def searchArticle(request):
     else:
         # If not searched, return default posts
         articles = Article.objects.all().order_by("-created_on")
-    return render(request, 'index.html', {'articles': articles, 'tags':tags})
+    return render(request, 'index.html', {'articles': articles, 'tags':tags, 'user_profile':user_profile})
 
     
 def articlesByTag(request):

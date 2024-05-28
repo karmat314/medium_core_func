@@ -7,6 +7,7 @@
     {% block styles %}
     {% load static %}
     <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <link rel="stylesheet" href="{% static 'responsive.css' %}">
     {% endblock %}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@7.4.47/css/materialdesignicons.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -47,6 +48,27 @@
             </li>
         </ul>
     </header>
+
+    <div class="hidden-menu">
+        <ul>
+            <li>
+                <div class="search-bar">
+                    <form action="{% url 'searchArticle' %}">
+                        {% csrf_token %}
+                        <input type="search" name="search" placeholder="Search">
+                        <button type="submit" class="mdi mdi-magnify"></button>
+                    </form>
+                </div>
+            </li>
+            <li>
+                <a href="{% url 'topArticles' %}">Top articles</a>
+            </li>
+            <li>
+                <a href="{% url 'newArticles' %}">Newest</a>
+            </li>
+        </ul>
+    </div>
+
     <!-- everything below the header except the header including the sidemenu and the main content such the posts -->
     <div class="main">
         <div class="left-window">
@@ -67,6 +89,7 @@
         <div class="main-content">
             {% block content %}
             {% load template_filters %}
+            {% if articles %}
                 {% for article in articles %}
                 <div class="post" id="article-{{ article.id }}">
                     <div class="article-author">
@@ -99,17 +122,20 @@
                                 <p>
                                     <a href="{% url 'viewArticle' article.id %}#comments"><span class="mdi mdi-comment"></span>{{ article.comments.count }}</a>
                                 </p>
-                                <p><span class="mdi mdi-bookmark-outline"></span>Save</p>
                             </div>
                         </div>
                         <div class="post-thumbnail">
                             <a href="{% url 'viewArticle' article.id %}">
-                                <img src="{{ article.image.url }}" width="250px">
+                                <img src="{{ article.image.url }}">
                             </a>
                         </div>
                     </div>
                 </div>
                 {% endfor %}
+
+            {% else %}
+            <div>No articles found</div>
+            {% endif %}
             {% endblock %}
         </div>
 

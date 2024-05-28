@@ -9,6 +9,12 @@
 {% block content %}
 <div class="article-container">
     <div class="full-article">
+        {% if request.user == article.user %}
+        <div class="edit-delete-options">
+        <a href="{% url 'updatearticle' article.id %}">Edit article</a>
+        <a href="{% url 'deletearticle' article.id %}">Delete article</a>
+        </div>
+        {% endif %}
         <h1 class="article-title">{{ article.title }}</h1>
         <span>By {{ article.user.username }} <i><small>{{ article.created_on|date:"F j, Y" }}</small></i></span>
         <div class="article-likes-comments">

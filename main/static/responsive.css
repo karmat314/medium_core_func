@@ -15,6 +15,9 @@
     .post-thumbnail {
         width: 100px;
     }
+    .edit-delete-options {
+        padding-top: 20px;
+    }
 
     .navbar {
         padding: 5px 10px 5px 10px;

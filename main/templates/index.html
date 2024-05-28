@@ -44,6 +44,14 @@
                <img src="{{ user_profile.profileimg.url }}">
                <ul class="dropdown">
                   <li><a href="{% url 'settings' %}">Settings</a></li>
+                  <li>
+                    <input type="checkbox" class="checkbox" id="checkbox">
+                    <label for="checkbox" class="checkbox-label">
+                        <i class="mdi mdi-brightness-2"></i>
+                        <i class="mdi mdi-white-balance-sunny"></i>
+                        <span class="ball"></span>
+                    </label>
+                  </li>
                </ul>
             </li>
         </ul>
@@ -98,10 +106,10 @@
                     </div>
                     <div class="post-container">
                         <div class="post-content">
-                            <a href="{% url 'viewArticle' article.id %}">
-                                <h2>{{ article.title }}</h2>
-                            </a>
                             <div class="post-main-content">
+                                <a href="{% url 'viewArticle' article.id %}">
+                                    <h2>{{ article.title }}</h2>
+                                </a>
                                 <a href="{% url 'viewArticle' article.id %}">
                                     {{ article.body|strip_images|truncatewords:50|safe }}
                                 </a>
@@ -151,6 +159,6 @@
     </div>
     <div>Made by Karma Thapkhey &#169; 2024 WebDev Mini-project </div>
    </footer>
-   <script src="{% static 'script.js' %}">
+   <script src="{% static 'js/script.js' %}"></script>
 </body>
 </html>

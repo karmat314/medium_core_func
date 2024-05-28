@@ -127,6 +127,36 @@ def writepost(request):
     return render(request, 'writepost.html', {'form': form, 'tags':tags, 'user_profile':user_profile})
 
 @login_required(login_url='login')
+def updatearticle(request, id):
+    user_object = User.objects.get(username=request.user.username)
+    user_profile = Profile.objects.get(user=user_object)
+    tags = Tag.objects.all()
+    article = get_object_or_404(Article, id=id)
+
+    if request.method == 'POST':
+        form = ArticleForm(request.POST, request.FILES, instance=article)
+        if form.is_valid():
+            article = form.save(commit=False)
+            article.user = request.user  # Ensure the user is set
+            article.save()
+            form.save_m2m()
+            return redirect('home')  # Redirect to a success page
+    else:
+        form = ArticleForm(instance=article)
+
+    return render(request, 'writepost.html', {'form': form, 'tags': tags, 'user_profile': user_profile})
+
+@login_required(login_url='login')
+def deletearticle(request, article_id):
+    article = get_object_or_404(Article, id=article_id)
+    
+    if request.method == 'POST':
+        article.delete()
+        return redirect('home')  # Redirect to a success page
+
+    return render(request, 'deletearticle.html', {'article': article})
+
+@login_required(login_url='login')
 def articleDetail(request, id):
     user_object = User.objects.get(username = request.user.username)
     user_profile = Profile.objects.get(user = user_object)

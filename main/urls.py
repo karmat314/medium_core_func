@@ -11,7 +11,7 @@ urlpatterns = [
     
     path('write/', writepost, name="write"),
     path('updatearticle/<int:id>/', updatearticle, name="updatearticle"),
-      path('deletearticle/<int:id>/', deletearticle, name='deletearticle'),
+    path('deletearticle/<int:id>/', deletearticle, name='deletearticle'),
     
     path('top-articles/', topArticles, name="topArticles"),
     path('newest-articles/', newArticles, name="newArticles"),

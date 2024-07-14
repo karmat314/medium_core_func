@@ -3,6 +3,7 @@
 {% block content %}
 
 {% load crispy_forms_tags %}
+<div class="writeform">
 <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     <div class="form-group">
@@ -20,6 +21,7 @@
         {% endif %}
     </div>
 </form>
+</div>
 
 {% if form.errors %}
     <div class="alert alert-danger">

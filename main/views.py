@@ -147,8 +147,8 @@ def updatearticle(request, id):
     return render(request, 'writepost.html', {'form': form, 'tags': tags, 'user_profile': user_profile})
 
 @login_required(login_url='login')
-def deletearticle(request, article_id):
-    article = get_object_or_404(Article, id=article_id)
+def deletearticle(request, id):
+    article = get_object_or_404(Article, id=id)
     
     if request.method == 'POST':
         article.delete()
@@ -219,14 +219,16 @@ def searchArticle(request):
 
     
 def articlesByTag(request):
+    user_object = User.objects.get(username = request.user.username)
+    user_profile = Profile.objects.get(user = user_object)
     tag = request.GET.get("tag")
     tags = Tag.objects.all()
     if (tag):
         articles = Article.objects.filter(tags__name__in=[tag]) #tags filtered by tag parameter
-        return render(request, 'index.html', {'articles': articles, 'tags':tags})
+        return render(request, 'index.html', {'articles': articles, 'tags':tags, 'user_profile':user_profile})
     else:
         articles = Article.objects.all()
-        return render(request, 'index.html', {'articles': articles, 'tags':tags})
+        return render(request, 'index.html', {'articles': articles, 'tags':tags, 'user_profile':user_profile})
     
 
 def topArticles(request):

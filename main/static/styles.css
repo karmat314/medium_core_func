@@ -459,3 +459,28 @@ footer ul {
   .checkbox:checked + .checkbox-label .ball {
     transform: translateX(24px);
   }
+
+
+
+
+
+
+
+  .writeform form {
+    display: flex;
+    flex-direction: column;
+    font-size: 20px;
+  }
+  .writeform form button {
+    display: inline-block;
+    padding: 10px 20px;
+    color: black;
+    border: none;
+    border-radius: 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    margin: 10px;
+}
+.writeform form button:hover {
+    background-color: var(--clap-comment-color);
+}

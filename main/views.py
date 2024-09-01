@@ -9,17 +9,18 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login
 
-# Create your views here.
-def landing_page(request):
-    return render(request, 'landing.html')
+def get_top_users():
+    users = User.objects.all()[:3]
+    return users
 
 @login_required(login_url='login')
 def index(request):
     user_object = User.objects.get(username = request.user.username)
     user_profile = Profile.objects.get(user = user_object)
+    users = get_top_users()
     articles = Article.objects.all()
     tags = Tag.objects.all()
-    return render(request, "index.html", {"articles": articles, 'tags':tags, 'user_profile':user_profile})
+    return render(request, "index.html", {"articles": articles, 'tags':tags, 'user_profile':user_profile, 'users':users})
 
 def signup(request):
     if request.method == 'POST':
@@ -106,7 +107,7 @@ def settings(request):
 @login_required(login_url='login')
 def logout(request):
     auth.logout(request)
-    return redirect('landing_page')
+    return redirect('login')
 
 @login_required(login_url='login')
 def writepost(request):

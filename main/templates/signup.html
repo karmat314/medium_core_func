@@ -1,7 +1,5 @@
 {% extends 'login_signup_base.html' %}
     {% block style %}
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'login_signup.css' %}">
     {% endblock %}
     
     {% block content %}
@@ -18,8 +16,7 @@
             <input type="password" name="password2" placeholder="Re-enter password" class="form-input">
             <button type="submit" class="submit-button">Sign up</button>
         </form>
-        <p>Already a member? <a href= " {% url 'login' %} " >Login</a></p>
-        <a href="{% url 'landing_page'%}"><span class="mdi mdi-arrow-left-circle">Back</span></a>
+        <p class="member-info">Already a member? <a href= " {% url 'login' %} " >Login</a></p>
     </div>
     {% endblock %}
 

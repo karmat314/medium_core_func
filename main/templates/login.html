@@ -2,22 +2,22 @@
 
 {% block style %}
 {% load static %}
-<link rel="stylesheet" href="{% static 'login_signup.css' %}">
+<link rel="stylesheet" href="{% static 'responsive.css' %}">
 {% endblock %}
 
 {% block content %}
 <div class="container">
     <h1>Login here</h1>
     {% for message in messages %}
-        <p class="message">{{ message }}</p>
+    <p class="message">{{ message }}</p>
     {% endfor %}
     <form action="" method="POST" class="form">
         {% csrf_token %}
-        <input type="text" name="username" placeholder="Username" class="form-input" value="{{ request.POST.username|default:'' }}">
-        <input type="password" name="password" placeholder="Password" class="form-input">
-        <button type="submit" class="submit-button">Login</button>
+        <input autocomplete="off" type="text" name="username" placeholder="Username" class="form-input"
+            value="{{ request.POST.username|default:'' }}">
+        <input autocomplete="off" type="password" name="password" placeholder="Password" class="form-input">
+        <button type="submit" class="submit-button tilt-button">Login</button>
     </form>
-    <p>Not a member? <a href="{% url 'signup' %}">Sign up</a></p>
-    <a href="{% url 'landing_page' %}"><span class="mdi mdi-arrow-left-circle">Back</span></a>
+    <p class="member-info">Not a member? <a href="{% url 'signup' %}">Sign up</a></p>
 </div>
 {% endblock %}

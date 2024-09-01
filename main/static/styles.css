@@ -1,4 +1,5 @@
 :root {
+    background-color: black;
     --main-bg: white;
     --border-color: #F2F2F2;
     --main-text: black;
@@ -7,10 +8,10 @@
 }
   
 :root.dark {
-    --main-bg: #0b0c10;
-    --main-text: white;
-    --border-color: #1f2833;
-    --link-color: #66fcf1;
+    --main-bg: #161616;
+    --main-text: rgb(255, 255, 255);
+    --border-color: #343434;
+    --link-color: #ffffff;
     --clap-comment-color: #c5c6c7;
 }
 
@@ -25,7 +26,7 @@ body {
     height: 100vh;
     display: flex;
     flex-direction: column;
-    color: var(--main-text)
+    color: var(--main-text);
 }
 
 /* nav bar */
@@ -37,7 +38,7 @@ body {
     z-index: 2;
     display: flex;
     list-style: none;
-    padding: 5px 50px 5px 50px;
+    padding: 0.5rem 2rem 0.5rem 2rem;
     gap: 20px;
     border-bottom: 1px solid var(--border-color);
 }
@@ -70,7 +71,7 @@ body {
 
 /* search abr and magnify icon */
 .search-bar {
-    border-radius: 15px;
+    border-radius: 4px;
     background-color: var(--border-color);
     max-height: 40px;
     padding: 5px;
@@ -91,9 +92,13 @@ body {
     cursor: pointer;
 }
 .search-bar input[type="search"] {
+    color: var(--main-text);
     font-size: 16px;
     background-color: var(--border-color);
     border: none;
+}
+.search-bar input:focus {
+    outline: none;
 }
 .navbar li:nth-child(3) span {
     font-size: xx-large;
@@ -145,11 +150,13 @@ body {
     flex: 1;
     display: flex;
     flex-direction: row;
-    padding: 50px 50px 0 50px;
+    padding: 2rem 2rem 0 2rem;
     background-color: var(--main-bg);
 }
+
 .left-window {
     flex: 2;
+    padding-top: 4rem;
     border-right: 1px solid var(--border-color);
     font-family: Roboto;
 }
@@ -167,10 +174,12 @@ body {
     padding: 15px 15px 15px 0;
 }
 .topics li {
+    min-width: 4rem;
+    text-align: center;
     list-style: none;
     background-color: var(--border-color);
     padding: 10px;
-    border-radius: 20px;
+    border-radius: 4px;
 }
 .topics a {
     text-decoration: none;
@@ -196,7 +205,6 @@ body {
     display: flex;
     flex-direction: row;
     column-gap: 20px;
-    font-family: Baskerville;
 }
 
 .post {
@@ -268,7 +276,6 @@ body {
 
 
 .article-container {
-    font-family: Baskerville;
     border-bottom: 1px solid var(--border-color);
     padding-bottom: 50px;
     margin-bottom: 50px;
@@ -350,7 +357,6 @@ body {
 }
 
 #comments {
-    font-family: Baskerville;
     max-width: 600px;
     padding: 1rem;
     border-radius: 8px;
@@ -373,7 +379,6 @@ body {
     color: var(--clap-comment-color);
 }
 .comment-username i {
-    font-family: Baskerviller;
     font-weight: lighter;
 }
 .comment-body {

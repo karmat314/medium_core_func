@@ -1,19 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     {% block style %}
     {% endblock %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'login_signup.css' %}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@7.4.47/css/materialdesignicons.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Baskervville:ital@0;1&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Baskervville:ital@0;1&display=swap"
+        rel="stylesheet">
 </head>
+
 <body>
-    {% block content %}
-    {% endblock %}
+    <div class="login-base-container">
+        <div class="hero-container">
+            <div class="app-title">yemena</div>
+            <svg width="250" height="250" viewBox="0 0 488 545" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path class="path"
+                    d="M75.9251 335.498L350.139 95.3265L246.747 4L142.855 95.3265L410.077 333.741L380.108 361.403L105.894 124.744L4 216.071L272.72 450.973L245.748 476L216.778 450.973L484 216.071L380.108 124.744L105.894 361.403L75.9251 335.498Z"
+                    stroke="white" stroke-width="5" />
+                <path class="path"
+                    d="M4 333.706L274.715 97.4865L242.749 69L211.282 97.4865L479 330.638L378.606 424.424L105.893 188.643L77.9222 214.5L346.639 450.72L244.747 541L137.36 450.72L408.574 214.5L380.104 188.643L107.391 424.424L4 333.706Z"
+                    stroke="white" stroke-width="5" />
+            </svg>
+            <h4 class="sub-title">
+                A place where you can write and share your stories.
+            </h4>
+        </div>
+        {% block content %}
+        {% endblock %}
+    </div>
 </body>
+
 </html>

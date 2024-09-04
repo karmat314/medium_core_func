@@ -1,7 +1,8 @@
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
+from main.utils import get_trending_authors
 from .forms import ArticleForm, CommentForm
-from .models import Article, Comment, Profile, LikeArticle
+from .models import Article, Comment, Profile, LikeArticle, View
 from django.db.models import Q 
 from taggit.models import Tag
 from django.contrib.auth.models import User, auth
@@ -9,18 +10,15 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login
 
-def get_top_users():
-    users = User.objects.all()[:3]
-    return users
 
 @login_required(login_url='login')
 def index(request):
     user_object = User.objects.get(username = request.user.username)
     user_profile = Profile.objects.get(user = user_object)
-    users = get_top_users()
+    trending_authors = get_trending_authors()
     articles = Article.objects.all()
     tags = Tag.objects.all()
-    return render(request, "index.html", {"articles": articles, 'tags':tags, 'user_profile':user_profile, 'users':users})
+    return render(request, "index.html", {"articles": articles, 'tags':tags, 'user_profile':user_profile, 'trending_authors':trending_authors})
 
 def signup(request):
     if request.method == 'POST':
@@ -165,6 +163,7 @@ def articleDetail(request, id):
     comments = article.comments.all()
     form = CommentForm()
     tags = Tag.objects.all()
+    View.objects.create(article=article)
     if request.method == 'POST':
         # get the article by article_id
         # A comment form
@@ -246,5 +245,3 @@ def newArticles(request):
     tags = Tag.objects.all()
     articles = Article.objects.order_by('-created_on')
     return render(request, "index.html", {"articles": articles, 'tags':tags, 'user_profile':user_profile})
-
-    

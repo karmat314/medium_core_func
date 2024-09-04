@@ -10,6 +10,9 @@ class Profile(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='profile')
     id_user = models.IntegerField()
     profileimg = models.ImageField(upload_to='images/', default='default-user-pic.webp')
+    total_views = models.IntegerField(default=0)
+    last_updated = models.DateTimeField(auto_now_add=True)
+
     
     def __str__(self):
         return self.user.username
@@ -48,3 +51,14 @@ class Comment(models.Model):
     
     def __str__(self):
         return f'Comment by {self.username} on {self.article}'
+    
+    
+class View(models.Model):
+    article = models.ForeignKey(Article, on_delete=models.CASCADE)
+    viewed_at = models.DateTimeField(auto_now_add=True) 
+    
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        profile = Profile.objects.get(user=self.article.user)
+        profile.total_views += 1
+        profile.save()

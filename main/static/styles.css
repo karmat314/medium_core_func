@@ -489,3 +489,7 @@ footer ul {
 .writeform form button:hover {
     background-color: var(--clap-comment-color);
 }
+
+.trending-profile {
+    border-radius: 20px;
+}

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,13 +13,21 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@7.4.47/css/materialdesignicons.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Baskervville:ital@0;1&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Baskervville:ital@0;1&display=swap"
+        rel="stylesheet">
 </head>
+
 <body>
     <header>
         <ul class="navbar">
-            <li><a href="{% url 'home' %}"><svg xmlns="http://www.w3.org/2000/svg" viewBox="2 1 16 16" height="48px"><path d="M8,11H9V10H10V9H11V8H12V7H13V4H8ZM7,16H6V15H5V14H6V3H15V15H7ZM14,14V8H13V9H12V10H11V11H10V12H9V14Z"/></svg><p>INKFLUENCE</p></a></li>
+            <li>
+                <a href="{% url 'home' %}">
+                    <p>YEMENA</p>
+                </a>
+            </li>
             <li>
                 <div class="search-bar">
                     <form action="{% url 'searchArticle' %}">
@@ -41,18 +50,18 @@
                 <a href="{% url 'logout' %}">Log out</a>
             </li>
             <li id="profileimg">
-               <img src="{{ user_profile.profileimg.url }}">
-               <ul class="dropdown">
-                  <li><a href="{% url 'settings' %}">Settings</a></li>
-                  <li>
-                    <input type="checkbox" class="checkbox" id="checkbox">
-                    <label for="checkbox" class="checkbox-label">
-                        <i class="mdi mdi-brightness-2"></i>
-                        <i class="mdi mdi-white-balance-sunny"></i>
-                        <span class="ball"></span>
-                    </label>
-                  </li>
-               </ul>
+                <img src="{{ user_profile.profileimg.url }}">
+                <ul class="dropdown">
+                    <li><a href="{% url 'settings' %}">Settings</a></li>
+                    <li>
+                        <input type="checkbox" class="checkbox" id="checkbox">
+                        <label for="checkbox" class="checkbox-label">
+                            <i class="mdi mdi-brightness-2"></i>
+                            <i class="mdi mdi-white-balance-sunny"></i>
+                            <span class="ball"></span>
+                        </label>
+                    </li>
+                </ul>
             </li>
         </ul>
     </header>
@@ -85,9 +94,20 @@
                 <h4>Browse by topics</h4>
                 <ul class="topics">
                     {% for article_tag in tags %}
-                        <li>
-                            <a href="{% url 'articlesByTag' %}?tag={{ article_tag }}">{{ article_tag }}</a>
-                        </li>
+                    <li>
+                        <a href="{% url 'articlesByTag' %}?tag={{ article_tag }}">{{ article_tag }}</a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div> 
+            <div class="topics">
+                <h4>Trending Authors</h4>
+                <ul class="topics">
+                    {% for user in users %}
+                    <li>
+                        <img src="{{ user.profile.profileimg.url }}">
+                        {{ user.username }} {{ user.profile.profileimg.url }}
+                    </li>
                     {% endfor %}
                 </ul>
             </div>
@@ -98,48 +118,50 @@
             {% block content %}
             {% load template_filters %}
             {% if articles %}
-                {% for article in articles %}
-                <div class="post" id="article-{{ article.id }}">
-                    <div class="article-author">
-                        <p>By {{ article.user.username }}</p>
-                        <p><i>{{ article.created_on|date:"F j, Y" }}</i></p>
-                    </div>
-                    <div class="post-container">
-                        <div class="post-content">
-                            <div class="post-main-content">
-                                <a href="{% url 'viewArticle' article.id %}">
-                                    <h2>{{ article.title }}</h2>
-                                </a>
-                                <a href="{% url 'viewArticle' article.id %}">
-                                    {{ article.body|strip_images|truncatewords:50|safe }}
-                                </a>
-                            </div>
-                            <div class="post-footer">
-                                <ul>
-                                    <li>
-                                        {% for article_tag in article.tags.all %}
-                                            <a href="{% url 'articlesByTag' %}?tag={{ article_tag }}">{{ article_tag }}</a>
-                                        {% endfor %}
-                                    </li>
-                                </ul>
-                                <p id="likes">
-                                    <p>
-                                       <a href="{% url 'likearticle' %}?article_id={{ article.id }}"><span class="mdi mdi-hand-clap"></span>{{ article.no_of_claps }}</a>
-                                    </p>
-                                </p>
-                                <p>
-                                    <a href="{% url 'viewArticle' article.id %}#comments"><span class="mdi mdi-comment"></span>{{ article.comments.count }}</a>
-                                </p>
-                            </div>
-                        </div>
-                        <div class="post-thumbnail">
+            {% for article in articles %}
+            <div class="post" id="article-{{ article.id }}">
+                <div class="article-author">
+                    <p>By {{ article.user.username }}</p>
+                    <p><i>{{ article.created_on|date:"F j, Y" }}</i></p>
+                </div>
+                <div class="post-container">
+                    <div class="post-content">
+                        <div class="post-main-content">
                             <a href="{% url 'viewArticle' article.id %}">
-                                <img src="{{ article.image.url }}">
+                                <h2>{{ article.title }}</h2>
+                            </a>
+                            <a href="{% url 'viewArticle' article.id %}">
+                                {{ article.body|strip_images|truncatewords:50|safe }}
                             </a>
                         </div>
+                        <div class="post-footer">
+                            <ul>
+                                <li>
+                                    {% for article_tag in article.tags.all %}
+                                    <a href="{% url 'articlesByTag' %}?tag={{ article_tag }}">{{ article_tag }}</a>
+                                    {% endfor %}
+                                </li>
+                            </ul>
+                            <p id="likes">
+                            <p>
+                                <a href="{% url 'likearticle' %}?article_id={{ article.id }}"><span
+                                        class="mdi mdi-hand-clap"></span>{{ article.no_of_claps }}</a>
+                            </p>
+                            </p>
+                            <p>
+                                <a href="{% url 'viewArticle' article.id %}#comments"><span
+                                        class="mdi mdi-comment"></span>{{ article.comments.count }}</a>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="post-thumbnail">
+                        <a href="{% url 'viewArticle' article.id %}">
+                            <img src="{{ article.image.url }}">
+                        </a>
                     </div>
                 </div>
-                {% endfor %}
+            </div>
+            {% endfor %}
 
             {% else %}
             <div>No articles found</div>
@@ -149,16 +171,17 @@
 
     </div>
 
-   <footer>
-    <div><span>INKFLUENCE</span> - a playground for sharing information.</div>
-    <div>
-        <ul>
-            <li><a href="">Guides</a></li>
-            <li><a href="">Docs</a></li>
-        </ul>
-    </div>
-    <div>Made by Karma Thapkhey &#169; 2024 WebDev Mini-project </div>
-   </footer>
-   <script src="{% static 'js/script.js' %}"></script>
+    <footer>
+        <div><span>INKFLUENCE</span> - a playground for sharing information.</div>
+        <div>
+            <ul>
+                <li><a href="">Guides</a></li>
+                <li><a href="">Docs</a></li>
+            </ul>
+        </div>
+        <div>Made by Karma Thapkhey &#169; 2024 WebDev Mini-project </div>
+    </footer>
+    <script src="{% static 'js/script.js' %}"></script>
 </body>
+
 </html>

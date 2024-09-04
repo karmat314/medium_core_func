@@ -103,10 +103,10 @@
             <div class="topics">
                 <h4>Trending Authors</h4>
                 <ul class="topics">
-                    {% for user in users %}
+                    {% for author in trending_authors %}
                     <li>
-                        <img src="{{ user.profile.profileimg.url }}">
-                        {{ user.username }} {{ user.profile.profileimg.url }}
+                        <!-- <img height="20px" width="20px" class="trending-profile" src="{{ author.profileimg.url }}"> -->
+                        {{ author.user.username }}
                     </li>
                     {% endfor %}
                 </ul>
